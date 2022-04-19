@@ -1,0 +1,15 @@
+{
+  "name": "omie-nodejs",
+  "version": "0.0.1",
+  "description": "Omie API wrapper",
+  "keywords": ["omie", "api"],
+  "homepage": "https://github.com/chimico/omie-nodejs",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:chimico/omie-nodejs.git"
+  },
+  "bugs": "https://github.com/chimico/omie-nodejs/issues",
+  "author": "Chimico <support@chimico.com.br> (https://chimico.com.br)",
+  "license": "MIT",
+  "main": "src/omie.js"
+}
