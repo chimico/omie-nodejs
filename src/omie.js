@@ -1,12 +1,39 @@
-const fetch = require('node-fetch')
+const nodeFetch = require('node-fetch');
 
-const Omie = (args) => {
+const BASE_URL = 'https://app.omie.com.br/api/v1';
+
+const generateRequestBody = (key, secret, method, params) => {
+  return JSON.stringify({
+    call: method,
+    app_key: key,
+    app_secret: secret,
+    param: [params],
+  });
+};
+
+const Omie = ({ key, secret }) => {
+  // TODO: Validate key and secret is present in the request
   return {
     general: {
       customers: {
         retrieve: async (params) => {
-          const response = await fetch('https://app.omie.com.br/api/v1/geral/clientes/', {method: 'post', body: params,});
-          return response;
+          // TODO: Validate params
+          const bodyParams = {};
+          if (Number.isFinite(params)) {
+            bodyParams.codigo_cliente_omie = params;
+          } else {
+            bodyParams.codigo_cliente_integracao = params.integrationCode;
+          }
+
+          const URL = `${BASE_URL}/geral/clientes/`;
+          const requestBody = generateRequestBody(key, secret, 'ConsultarCliente', bodyParams);
+
+          const response = await nodeFetch(URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: requestBody,
+          });
+          return response.json();
         }
       }
     }
@@ -14,7 +41,3 @@ const Omie = (args) => {
 };
 
 module.exports = Omie;
-
-// node fetch, usar POST, dentro da função retrieve passar os argumentos e testando chamando a API, nock retornará o dado.
-// node fetch API errada, o Post só vai funcionar ao passar o body
-// commita tudo (commit, mas não da push)
