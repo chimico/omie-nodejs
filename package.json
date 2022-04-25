@@ -1,6 +1,6 @@
 {
   "name": "omie-nodejs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Omie API wrapper",
   "keywords": [
     "omie",
