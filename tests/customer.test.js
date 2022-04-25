@@ -18,13 +18,7 @@ nock('https://app.omie.com.br/api/v1')
 describe('Customer Resource', () => {
   describe('retrieve', () => {
     it('Sends the correct request with id', async () => {
-      const data = await omie.general.customers.retrieve(1);
-
-      data.should.have.property('codigo_cliente_omie').with.equal(1);
-    });
-
-    it('Sends the correct request with integration code', async () => {
-      const data = await omie.general.customers.retrieve({integrationCode: '1',});
+      const data = await omie.general.customers.retrieve(codigo_cliente_omie);
 
       data.should.have.property('codigo_cliente_omie').with.equal(1);
     });

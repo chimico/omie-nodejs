@@ -1,12 +1,12 @@
+const fetch = require('node-fetch')
+
 const Omie = (args) => {
   return {
     general: {
       customers: {
-        retrieve: async () => {
-          return {
-            codigo_cliente_omie: 1,
-            integrationCode: '1',
-          }
+        retrieve: async (params) => {
+          const response = await fetch('https://app.omie.com.br/api/v1/geral/clientes/', {method: 'post', body: params,});
+          return response;
         }
       }
     }
