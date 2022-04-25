@@ -22,5 +22,11 @@ describe('Customer Resource', () => {
 
       data.should.have.property('codigo_cliente_omie').with.equal(1);
     });
+
+    it('Sends the correct request with integration code', async () => {
+      const data = await omie.general.customers.retrieve({integrationCode: '1',});
+
+      data.should.have.property('codigo_cliente_omie').with.equal(1);
+    });
   });
 });
