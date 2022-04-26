@@ -18,6 +18,11 @@ const Omie = ({ key, secret }) => {
       customers: {
         retrieve: async (params=paramRequired()) => {
           // TODO: Validate params
+
+          if (params != 'codigo_cliente_omie' || params != 'codigo_cliente_integracao') {
+            throw new Error('Parameter Invalid');
+          };
+
           const bodyParams = {};
           if (Number.isFinite(params)) {
             bodyParams.codigo_cliente_omie = params;
