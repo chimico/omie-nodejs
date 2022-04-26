@@ -16,7 +16,7 @@ const Omie = ({ key, secret }) => {
   return {
     general: {
       customers: {
-        retrieve: async (params) => {
+        retrieve: async (params=paramRequired()) => {
           // TODO: Validate params
           const bodyParams = {};
           if (Number.isFinite(params)) {
@@ -34,10 +34,17 @@ const Omie = ({ key, secret }) => {
             body: requestBody,
           });
           return response.json();
-        }
+          return retrieve(clientes_cadastro_chave)
+        },
+
+        paramRequired: () => {
+          throw new Error('Parameters is required')
+        },
       }
     }
   }
 };
 
 module.exports = Omie;
+
+console.log(Omie().retrieve())
