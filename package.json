@@ -29,6 +29,9 @@
     "prettier": "^2.6.2"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
+    "lodash.has": "^4.5.2",
+    "lodash.isplainobject": "^4.0.6",
     "node-fetch": "2"
   }
 }

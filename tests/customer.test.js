@@ -52,5 +52,13 @@ describe('Customer Resource', () => {
 
       data.should.have.property('codigo_cliente_integracao').with.equal('2');
     });
+
+    it ('Sends the incorrect request', async() => {
+      const data = await omie.general.customers.retrieve({
+        integrationCod: '2',
+      });
+
+      data.should.have.property('codigo_cliente_integracao').with.equal('2');
+    });
   });
 });

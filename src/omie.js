@@ -1,3 +1,5 @@
+const isPlainObject = require('lodash.isplainobject');
+const has = require('lodash.has');
 const nodeFetch = require('node-fetch');
 
 const BASE_URL = 'https://app.omie.com.br/api/v1';
@@ -11,18 +13,34 @@ const generateRequestBody = (key, secret, method, params) => {
   });
 };
 
+function paramValidation(params) {
+  if (isPlainObject(params)) {
+    if (has(params, 'integrationCode')) {
+      return params.integrationCode;
+    }
+    return 'inválido';
+  }
+
+  const parsedParam = Number.parseInt(params, 10);
+
+  if (parsedParam !== NaN) {
+    return parsedParam;
+  }
+  return 'Inválido';
+}
+
 const Omie = ({ key, secret }) => {
   // TODO: Validate key and secret is present in the request
   return {
     general: {
       customers: {
-        retrieve: async (params=paramRequired()) => {
+        retrieve: async (params) => {
           // TODO: Validate params
 
-          if (params != 'codigo_cliente_omie' || params != 'codigo_cliente_integracao') {
-            throw new Error('Parameter Invalid');
-          };
-
+          const paramsProcessed = paramValidation(params);
+          if (paramsProcessed == 'inválido') {
+            return 'inválido';
+          }
           const bodyParams = {};
           if (Number.isFinite(params)) {
             bodyParams.codigo_cliente_omie = params;
@@ -39,11 +57,6 @@ const Omie = ({ key, secret }) => {
             body: requestBody,
           });
           return response.json();
-          return retrieve(clientes_cadastro_chave)
-        },
-
-        paramRequired: () => {
-          throw new Error('Parameters is required')
         },
       }
     }
@@ -51,5 +64,3 @@ const Omie = ({ key, secret }) => {
 };
 
 module.exports = Omie;
-
-console.log(Omie().retrieve())
