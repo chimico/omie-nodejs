@@ -2,6 +2,19 @@ const isPlainObject = require('lodash.isplainobject');
 const has = require('lodash.has');
 const nodeFetch = require('node-fetch');
 
+class IntegrationError extends Error {
+  constructor(name, integrationCode) {
+    super(integrationCode);
+    this.name = 'Typing error';
+  }
+}
+
+class TypingWrong extends IntegrationError {
+  constructor(integrationCode = 'param not recognized') {
+    super(integrationCode);
+  }
+}
+
 const BASE_URL = 'https://app.omie.com.br/api/v1';
 
 const generateRequestBody = (key, secret, method, params) => {
@@ -18,7 +31,7 @@ function paramValidation(params) {
     if (has(params, 'integrationCode')) {
       return params.integrationCode;
     }
-    return 'inválido';
+    throw new TypingWrong('param Inválido');
   }
 
   const parsedParam = Number.parseInt(params, 10);
