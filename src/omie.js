@@ -42,7 +42,16 @@ function paramValidation(params) {
   return 'Inválido';
 }
 
-const Omie = ({ key, secret }) => {
+async function invalidRequest() {
+  try {
+    const response = await paramValidation();
+    return response;
+  } catch (error) {
+    console.log('Error: ', error.message);
+  }
+}
+
+const Omie = ({key, secret}) => {
   // TODO: Validate key and secret is present in the request
   return {
     general: {
