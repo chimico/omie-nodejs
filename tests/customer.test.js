@@ -1,5 +1,10 @@
 const nock = require('nock');
 const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const expect = require('chai').expect;
+const paramValidation = require('../src/omie');
+
+chai.use(chaiAsPromised);
 
 const OMIE_KEY = 'FAKEKEY';
 const OMIE_SECRET = 'FAKESECRET';
@@ -53,12 +58,10 @@ describe('Customer Resource', () => {
       data.should.have.property('codigo_cliente_integracao').with.equal('2');
     });
 
-    it ('Sends the incorrect request', async() => {
-      const data = await omie.general.customers.retrieve({
-        integrationCod: '2',
-      });
+    it ('Sends the incorrect request', () => {
+      const promise = omie.general.customers.retrieve({integrationCod: '2'});
 
-      data.should.have.property('codigo_cliente_integracao').with.equal('2');
+      return promise.should.be.rejected.and.eventually.have.property('integrationCode');
     });
   });
 });

@@ -2,16 +2,9 @@ const isPlainObject = require('lodash.isplainobject');
 const has = require('lodash.has');
 const nodeFetch = require('node-fetch');
 
-class IntegrationError extends Error {
-  constructor(name, integrationCode) {
-    super(integrationCode);
-    this.name = 'Typing error';
-  }
-}
-
-class TypingWrong extends IntegrationError {
-  constructor(integrationCode = 'param not recognized') {
-    super(integrationCode);
+class WrongParamError{
+  constructor(integrationCode) {
+    this.integrationCode = integrationCode;
   }
 }
 
@@ -31,7 +24,7 @@ function paramValidation(params) {
     if (has(params, 'integrationCode')) {
       return params.integrationCode;
     }
-    throw new TypingWrong('param Inválido');
+    throw new WrongParamError(params);
   }
 
   const parsedParam = Number.parseInt(params, 10);
@@ -44,10 +37,13 @@ function paramValidation(params) {
 
 async function invalidRequest() {
   try {
-    const response = await paramValidation();
-    return response;
-  } catch (error) {
-    console.log('Error: ', error.message);
+    await omie.general.customers.retrieve({ errado: 1 });
+  } catch (err) {
+    if (err.code >= 500) {
+      return 'Omie está com problemas.';
+    }
+    if (err.type === 'InvalidParameters') {
+      return `Foi parâmetros errados: ${JSON.stringify(err.parameters)}.`;
   }
 }
 

@@ -29,6 +29,7 @@
     "prettier": "^2.6.2"
   },
   "dependencies": {
+    "chai-as-promised": "^7.1.1",
     "lodash": "^4.17.21",
     "lodash.has": "^4.5.2",
     "lodash.isplainobject": "^4.0.6",
