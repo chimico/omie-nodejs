@@ -2,7 +2,7 @@ const isPlainObject = require('lodash.isplainobject');
 const has = require('lodash.has');
 const nodeFetch = require('node-fetch');
 
-class WrongParamError{
+class WrongParamError {
   constructor(integrationCode) {
     this.integrationCode = integrationCode;
   }
@@ -37,22 +37,25 @@ function paramValidation(params) {
 
 async function invalidRequest() {
   try {
-    await omie.general.customers.retrieve({ errado: 1 });
+    await omie.general.customers.retrieve({errado: 1});
   } catch (err) {
     if (err.code >= 500) {
       return 'Omie está com problemas.';
     }
     if (err.type === 'InvalidParameters') {
       return `Foi parâmetros errados: ${JSON.stringify(err.parameters)}.`;
+    }
   }
 }
 
 const Omie = ({key, secret}) => {
+  // eslint-disable-next-line no-warning-comments
   // TODO: Validate key and secret is present in the request
   return {
     general: {
       customers: {
         retrieve: async (params) => {
+          // eslint-disable-next-line no-warning-comments
           // TODO: Validate params
 
           const paramsProcessed = paramValidation(params);
@@ -67,18 +70,24 @@ const Omie = ({key, secret}) => {
           }
 
           const URL = `${BASE_URL}/geral/clientes/`;
-          const requestBody = generateRequestBody(key, secret, 'ConsultarCliente', bodyParams);
+          const requestBody = generateRequestBody(
+            key,
+            secret,
+            'ConsultarCliente',
+            bodyParams
+          );
 
           const response = await nodeFetch(URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: requestBody,
           });
           return response.json();
         },
-      }
-    }
-  }
+      },
+    },
+  };
 };
 
 module.exports = Omie;
+
