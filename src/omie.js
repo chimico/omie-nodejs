@@ -3,8 +3,12 @@ const has = require('lodash.has');
 const nodeFetch = require('node-fetch');
 
 class WrongParamError {
-  constructor(integrationCode) {
-    this.integrationCode = integrationCode;
+  constructor(integrationParam) {
+    this.integrationParam = integrationParam;
+  }
+
+  errorThrow(integrationParam) {
+    return `Param is incorrect, you typed ${this.integrationParam}`;
   }
 }
 
@@ -24,7 +28,7 @@ function paramValidation(params) {
     if (has(params, 'integrationCode')) {
       return params.integrationCode;
     }
-    throw new WrongParamError(params);
+    throw new WrongParamError(params).errorThrow();
   }
 
   const parsedParam = Number.parseInt(params, 10);
@@ -90,4 +94,3 @@ const Omie = ({key, secret}) => {
 };
 
 module.exports = Omie;
-
