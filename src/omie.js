@@ -8,7 +8,9 @@ class WrongParamError {
   }
 
   errorThrow(integrationParam) {
-    return `Param is incorrect, you typed ${this.integrationParam}`;
+    return `Param is incorrect, you typed ${JSON.stringify(
+      this.integrationParam
+    )}`;
   }
 }
 
