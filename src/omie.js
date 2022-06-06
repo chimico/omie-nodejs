@@ -1,69 +1,17 @@
-const isPlainObject = require('lodash.isplainobject');
-const has = require('lodash.has');
 const nodeFetch = require('node-fetch');
-
-class WrongParamError {
-  constructor(integrationParam) {
-    this.integrationParam = integrationParam;
-  }
-
-  errorThrow(integrationParam) {
-    return `Param is incorrect, you typed ${JSON.stringify(
-      this.integrationParam
-    )}`;
-  }
-}
+const paramValidation = require('./validation');
+const generateRequestBody = require('./request');
 
 const BASE_URL = 'https://app.omie.com.br/api/v1';
 
-const generateRequestBody = (key, secret, method, params) => {
-  return JSON.stringify({
-    call: method,
-    app_key: key,
-    app_secret: secret,
-    param: [params],
-  });
-};
-
-function paramValidation(params) {
-  if (isPlainObject(params)) {
-    if (has(params, 'integrationCode')) {
-      return params.integrationCode;
-    }
-    throw new WrongParamError(params).errorThrow();
-  }
-
-  const parsedParam = Number.parseInt(params, 10);
-
-  if (parsedParam !== NaN) {
-    return parsedParam;
-  }
-  return 'Inválido';
-}
-
-async function invalidRequest() {
-  try {
-    await omie.general.customers.retrieve({errado: 1});
-  } catch (err) {
-    if (err.code >= 500) {
-      return 'Omie está com problemas.';
-    }
-    if (err.type === 'InvalidParameters') {
-      return `Foi parâmetros errados: ${JSON.stringify(err.parameters)}.`;
-    }
-  }
-}
-
 const Omie = ({key, secret}) => {
-  // eslint-disable-next-line no-warning-comments
-  // TODO: Validate key and secret is present in the request
+  if (key === undefined || secret === undefined) {
+    throw new Error('Insert Key or Secret');
+  }
   return {
     general: {
       customers: {
         retrieve: async (params) => {
-          // eslint-disable-next-line no-warning-comments
-          // TODO: Validate params
-
           const paramsProcessed = paramValidation(params);
           if (paramsProcessed == 'inválido') {
             return 'inválido';
