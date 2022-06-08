@@ -4,10 +4,13 @@ const generateRequestBody = require('./request');
 
 const BASE_URL = 'https://app.omie.com.br/api/v1';
 
-const Omie = ({key, secret}) => {
+let lista =
+
+const Omie = ({key, secret, method}) => {
   if (key === undefined || secret === undefined) {
     throw new Error('Insert Key or Secret');
   }
+
   return {
     general: {
       customers: {
