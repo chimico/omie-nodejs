@@ -4,11 +4,43 @@ const generateRequestBody = require('./request');
 
 const BASE_URL = 'https://app.omie.com.br/api/v1';
 
-let lista =
+const methodList = {
+  ConsultarCliente: ['codigo_cliente_omie', 'codigo_cliente_integracao'],
+  IncluirCliente: [
+    'codigo_cliente_integracao',
+    'email',
+    'razao_social',
+    'nome_fantasia',
+  ],
+  AlternarCliente: [
+    'codigo_cliente_integracao',
+    'email',
+    'razao_social',
+    'nome_fantasia',
+  ],
+  AssociarCodIntCliente: ['codigo_cliente_omie', 'codigo_cliente_integracao'],
+  UpsertCliente: [
+    'codigo_cliente_integracao',
+    'email',
+    'razao_social',
+    'nome_fantasia',
+  ],
+  UpsertClienteCpfCnpj: ['cnpj_cpf', 'email', 'razao_social', 'nome_fantasia'],
+  ListaClientes: ['pagina', 'registros_por_pagina', 'apenas_importado_api'],
+};
 
 const Omie = ({key, secret, method}) => {
   if (key === undefined || secret === undefined) {
     throw new Error('Insert Key or Secret');
+  }
+
+  for (const methodCheck in methodList) {
+    if (methodList.hasOwnProperty(method)) {
+      const pickMethod = methodList[method];
+      return pickMethod;
+    } else {
+      return 'Incorrect Method';
+    }
   }
 
   return {
