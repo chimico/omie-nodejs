@@ -1,24 +1,30 @@
 const isPlainObject = require('lodash.isplainobject');
 const has = require('lodash.has');
+const WrongParamError = require('./errors/WrongParamError');
 
-class WrongParamError {
-  constructor(integrationParam) {
-    this.integrationParam = integrationParam;
-  }
+// class WrongParamError {
+//   constructor(integrationParam) {
+//     this.integrationParam = integrationParam;
+//   }
 
-  errorThrow(integrationParam) {
-    return `Param is incorrect, you typed ${JSON.stringify(
-      this.integrationParam
-    )}`;
-  }
-}
+//   errorThrow(integrationParam) {
+//     return `Param is incorrect, you typed ${JSON.stringify(
+//       this.integrationParam
+//     )}`;
+//   }
+// }
 
 function paramValidation(params) {
   if (isPlainObject(params)) {
     if (has(params, 'integrationCode')) {
       return params.integrationCode;
     }
-    throw new WrongParamError(params).errorThrow();
+    throw new WrongParamError({
+      param: params,
+      detail: 'param incorrect',
+      statusCode: 400,
+      message: 'Please, use integrationCode',
+    });
   }
 
   const parsedParam = Number.parseInt(params, 10);

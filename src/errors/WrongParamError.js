@@ -1,13 +1,25 @@
 // TODO: Essa classe deve receber os dados enviados e qual dado está errado
+
+const Omie = require('../omie');
+
 //       O retorno tem que ser qual campo/valor está errado
 class WrongParamError extends Error {
-  super(integrationParam) {
-    this.integrationParam = integrationParam;
+  constructor(raw = {}) {
+    super(raw.name);
+    this.type = this.constructor.name;
+    this.raw = raw;
+    this.code = raw.code;
+    this.param = raw.param;
+    this.detail = raw.detail;
+    this.header = raw.header;
+    this.requestId = raw.requestId;
+    this.statusCode = raw.statusCode;
+    this.message = raw.message;
   }
 
-  errorThrow(integrationParam) {
-    return `Param is incorrect, you typed ${JSON.stringify(
-      this.integrationParam
-    )}`;
+  errorThrow(param) {
+    return `Param is incorrect, you typed ${JSON.stringify(this.param)}`;
   }
 }
+
+module.exports = WrongParamError;
