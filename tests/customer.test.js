@@ -2,13 +2,12 @@ const nock = require('nock');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-chai.use(chaiAsPromised);
-
 const OMIE_KEY = 'FAKEKEY';
 const OMIE_SECRET = 'FAKESECRET';
 
-const omie = require('../src/omie')({key: OMIE_KEY, secret: OMIE_SECRET});
+const omie = require('../src/omie')({ key: OMIE_KEY, secret: OMIE_SECRET });
 
+chai.use(chaiAsPromised);
 chai.should();
 
 const OMIE_URL = 'https://app.omie.com.br/api/v1';

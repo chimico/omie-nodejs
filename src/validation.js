@@ -1,24 +1,15 @@
 const isPlainObject = require('lodash.isplainobject');
-const has = require('lodash.has');
+
+const has = require('./utils');
 const WrongParamError = require('./errors/WrongParamError');
 
-// class WrongParamError {
-//   constructor(integrationParam) {
-//     this.integrationParam = integrationParam;
-//   }
-
-//   errorThrow(integrationParam) {
-//     return `Param is incorrect, you typed ${JSON.stringify(
-//       this.integrationParam
-//     )}`;
-//   }
-// }
-
+// FIXME: Essa função só faz a validação do método retrieve do cliente
 function paramValidation(params) {
   if (isPlainObject(params)) {
     if (has(params, 'integrationCode')) {
-      return params.integrationCode;
+      return { codigo_cliente_integracao: params.integrationCode };
     }
+
     throw new WrongParamError({
       param: params,
       detail: 'param incorrect',
@@ -27,25 +18,18 @@ function paramValidation(params) {
     });
   }
 
-  const parsedParam = Number.parseInt(params, 10);
+  const id = Number(params);
 
-  if (parsedParam !== NaN) {
-    return parsedParam;
+  if (Number.isNaN(id)) {
+    throw new WrongParamError({
+      param: params,
+      detail: 'param incorrect',
+      statusCode: 400,
+      message: 'Please, use integrationCode',
+    });
   }
-  return 'Inválido';
-}
 
-// async function invalidRequest() {
-//   try {
-//     await omie.general.customers.retrieve({errado: 1});
-//   } catch (err) {
-//     if (err.code >= 500) {
-//       return 'Omie está com problemas.';
-//     }
-//     if (err.type === 'InvalidParameters') {
-//       return `Foi parâmetros errados: ${JSON.stringify(err.parameters)}.`;
-//     }
-//   }
-// }
+  return { codigo_cliente_omie: params };
+}
 
 module.exports = paramValidation;

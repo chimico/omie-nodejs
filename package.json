@@ -30,7 +30,6 @@
     "prettier": "^2.6.2"
   },
   "dependencies": {
-    "lodash.has": "^4.5.2",
     "lodash.isplainobject": "^4.0.6",
     "node-fetch": "2"
   }
