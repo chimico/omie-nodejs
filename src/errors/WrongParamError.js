@@ -1,11 +1,8 @@
 // TODO: Essa classe deve receber os dados enviados e qual dado está errado
-
-const Omie = require('../omie');
-
 //       O retorno tem que ser qual campo/valor está errado
 class WrongParamError extends Error {
   constructor(raw = {}) {
-    super(raw.name);
+    super(raw.message);
     this.type = this.constructor.name;
     this.raw = raw;
     this.code = raw.code;

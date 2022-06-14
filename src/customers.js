@@ -9,6 +9,7 @@ const URL = `${BASE_URL}/geral/clientes/`;
 
 // FIXME: Não sei para que tem essa lista de métodos, nós estamos implementando cada método com nome
 //        e parâmetros diferentes.
+
 const availableMethods = {
   ConsultarCliente: [
     'codigo_cliente_omie',
@@ -50,6 +51,12 @@ const availableMethods = {
 };
 
 // TODO: Adicionar comentário para documentação aqui. https://jsdoc.app
+/**
+ * This function will return the request from Omie API
+ *
+ * @param {Object|number|string} params The parameter for Omie API
+ * @returns {Object} the result of the request
+ */
 const retrieve = async (params) => {
   // Throws WrongParamError if invalid
   const bodyParams = paramValidation(params);
