@@ -50,7 +50,6 @@ const availableMethods = {
   ],
 };
 
-// TODO: Adicionar comentário para documentação aqui. https://jsdoc.app
 /**
  * This function will return the request from Omie API
  *
