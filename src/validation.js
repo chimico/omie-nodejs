@@ -9,23 +9,13 @@ function paramValidation(key, secret, params) {
       return { codigo_cliente_integracao: params.integrationCode };
     }
 
-    throw new WrongParamError({
-      param: params,
-      detail: 'param incorrect',
-      statusCode: 400,
-      message: 'Please, use integrationCode',
-    });
+    throw new WrongParamError.IntegrationError(params);
   }
 
   const id = Number(params);
 
   if (Number.isNaN(id)) {
-    throw new WrongParamError({
-      param: params,
-      detail: 'param incorrect',
-      statusCode: 400,
-      message: 'Please, use integrationCode',
-    });
+    throw new WrongParamError.NumberError(params);
   }
 
   return { codigo_cliente_omie: params };
